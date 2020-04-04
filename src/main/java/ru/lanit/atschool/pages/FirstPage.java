@@ -2,75 +2,52 @@ package ru.lanit.atschool.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import ru.lanit.atschool.Intefaces.NameOfElement;
 
 public class FirstPage extends BasePage {
 
-    public WebElement getCategories() {
-        WebElement webElement = driver.findElement(By.linkText("Категории"));
-        return webElement;
-    }
+    @FindBy(xpath = "//div[@class='navbar-search dropdown']")
+    public WebElement getSearchIcon;
 
-    public WebElement getUsers() {
-        WebElement webElement = driver.findElement(By.linkText("Пользователи"));
-        return webElement;
-    }
+    @FindBy(xpath = "//*[@aria-controls='dropdown-menu dropdown-search-results']")
+    public WebElement getSearchField;
 
-    public WebElement getSearchIcon() {
-        WebElement webElement = driver.findElement(By.xpath("//div[@class='navbar-search dropdown']"));
-        return webElement;
-    }
+    @FindBy(xpath = "//*[@class='dropdown-search-user']")
+    public WebElement getSearchUserString;
 
-    public WebElement getSearchField() {
-        WebElement webElement = driver.findElement(By.xpath("//*[@aria-controls='dropdown-menu dropdown-search-results']"));
-        return webElement;
-    }
+    @NameOfElement("Кнопка_Войти_Формы_Авторизации")
+    @FindBy(xpath = "//button[@class='btn navbar-btn btn-default btn-sign-in']")
+    public WebElement btnSignIn;
 
-    public WebElement getSearchUserString() {
-        WebElement webElement = driver.findElement(By.xpath("//*[@class='dropdown-search-user']"));
-        return webElement;
-    }
+    @FindBy(linkText = "Категории")
+    public WebElement getCategories;
 
-    public WebElement btnSignIn() {
-        WebElement webElement = driver.findElement(By.xpath("//button[@class='btn navbar-btn btn-default btn-sign-in']"));
-        return webElement;
-    }
+    @FindBy(linkText = "Пользователи")
+    public WebElement getUsers;
 
-    public WebElement getUsernameField() {
-        WebElement webElement = driver.findElement(By.xpath("//input[@id='id_username']"));
-        return webElement;
-    }
+    @FindBy(xpath = "//input[@id='id_username']")
+    public WebElement getUsernameField;
 
-    public WebElement getPasswordField() {
-        WebElement webElement = driver.findElement(By.xpath("//input[@id='id_password']"));
-        return webElement;
-    }
+    @FindBy(xpath = "//input[@id='id_password']")
+    public WebElement getPasswordField;
 
-    public WebElement btnEnter() {
-        WebElement webElement = driver.findElement(By.xpath("//button[@class='btn btn-primary btn-block' and @type='submit']"));
-        return webElement;
-    }
+    @FindBy(xpath = "//button[@class='btn btn-primary btn-block' and @type='submit']")
+    public WebElement btnEnter;
 
-    public WebElement getCloseSign() {
-        WebElement webElement = driver.findElement(By.xpath("//button[@class='close' and @aria-label='Закрыть']"));
-        return webElement;
-    }
+    @FindBy(xpath = "//button[@class='close' and @aria-label='Закрыть']")
+    public WebElement getCloseSign;
 
-    public WebElement imgUserAvatar() {
-        WebElement webElement = driver.findElement(By.xpath("//img[@class='user-avatar' and @width='64']"));
-        return webElement;
-    }
+    @FindBy(xpath = "//img[@class='user-avatar' and @width='64']")
+    public WebElement imgUserAvatar;
 
-    public WebElement btnUserExit() {
-        WebElement webElement = driver.findElement(By.xpath("//button[@class='btn btn-default btn-block']"));
-        return webElement;
-    }
+    @FindBy(xpath = "//button[@class='btn btn-default btn-block']")
+    public WebElement btnUserExit;
 
-    public WebElement getRedAlertSign() {
-        WebElement webElement = driver.findElement(By.xpath("//div[@class='alerts-snackbar in']"));
-        return webElement;
-    }
+    @FindBy(xpath = "//div[@class='alerts-snackbar in']")
+    public WebElement getRedAlertSign;
 
-//                    public WebElement getCategories() {
+//    public WebElement getCategories() {
 //        WebElement webElement = driver.findElement(By.xpath("//button[@class='btn navbar-btn btn-default btn-sign-in']"));
 //        return webElement;
 //    }

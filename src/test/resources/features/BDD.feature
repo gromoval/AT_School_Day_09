@@ -8,22 +8,22 @@
     И переход на страницу Категории
     И переход на страницу Пользователи
     И поиск пользователя из предыстории
+#    Также нажатие "Кнопка_Войти_Формы_Авторизации" и вызов формы авторизации
 
     Примеры:
-      | адрес                           |
-      | https://dev.n7lanit.ru/    |
+      | адрес                       |
+      | https://dev.n7lanit.ru/     |
 
 
   Сценарий: выполнить тесты авторизации ( сущ. пользователем, несущ. пользователем , с пустыми полями и т.д.)
     Дано проверка логинов и паролей пользователей
-      | login                           | password                               |
+      | login                   | password                      |
       | sdfkjhyfejrhsdfksdfh    | sdjfhksdjfhksdjfhyrgberjhbdf  |
-      | admin                         | простокакойтопароль          |
-      | gromovalex                | 1234qwerasdf                         |
-      | abyrvalg                     | [blank]                                    |
-      | [blank]                        | [blank]                                    |
-      | [blank]                        | abyvalg                                  |
-#    Когда проверка что данные не верные
+      | admin                   | простокакойтопароль           |
+      | gromovalex              | 1234qwerasdf                  |
+      | abyrvalg                | [blank]                       |
+      | [blank]                 | [blank]                       |
+      | [blank]                 | abyvalg                       |
 
     Тогда тест завершен
 
