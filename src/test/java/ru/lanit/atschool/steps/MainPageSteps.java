@@ -75,6 +75,7 @@ public class MainPageSteps {
             firstPage.btnSignIn.click();
             String username = table.get(i).get("login");
             String password = table.get(i).get("password");
+            new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(firstPage.getUsernameField));
             firstPage.getUsernameField.clear();
             if (username.isEmpty()) {
                 firstPage.btnEnter.click();
@@ -91,20 +92,15 @@ public class MainPageSteps {
                 }
             }
 //            Ждем, пока выскочит сообщение в красном блоке или появится кнопка, которая значит, что мы авторизовались
-// по умолчанию в WebDriveManager мы ставим implicitlywait в 10сек, тут если мы будем ждать, то просто помимо явного ожидания еще и добавим это неявное
-// там дальше видно, как работает. ждем пока элемент станет невидимым и плюс будем ждать 10сек просто так. поэтому обнуляем неявное в 0 и после выполнения явного ставим его обратно на 10
-            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
             new WebDriverWait(driver, 30).until(ExpectedConditions.or(
                     ExpectedConditions.visibilityOf(firstPage.getRedAlertSign),
                     ExpectedConditions.elementToBeClickable(firstPage.imgUserAvatar)));
-            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
             if (isElementPresent("//div[@class='alerts-snackbar in']")) {
                 System.out.printf("%s Авторизоваться нет возможности! Проверка пройдена!\n", firstPage.getRedAlertSign.getText());
                 Assert.assertTrue(firstPage.getRedAlertSign.isDisplayed());
-                driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
                 new WebDriverWait(driver, 30).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='alerts-snackbar in']")));
-                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+//                new WebDriverWait(driver, 30).until(ExpectedConditions.invisibilityOf(firstPage.getRedAlertSign)); // не пойму, но это не работает
                 firstPage.getCloseSign.click();
             } else {
                 System.out.printf("Пользователь %s авторизован! Проверка пройдена!\n", username);
@@ -122,6 +118,7 @@ public class MainPageSteps {
     @Также("нажатие {string} и вызов формы авторизации")
     public void нажатиеКнопкиВойтиИВызовФормыАвторизации(String arg0) {
         firstPage.get(arg0).click();
+//        new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(firstPage.getUsernameField));
         Assert.assertTrue(firstPage.getCloseSign.isDisplayed());
         firstPage.getCloseSign.click();
         System.out.println("Проверили, что рефлексия работает нормально");

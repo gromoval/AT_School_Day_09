@@ -31,7 +31,7 @@ public class WebDriverManager {
             } catch(UnreachableBrowserException e) {
                logger.error("Невозможно инциализировать драйвер!", e);
             }
-            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+//            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         }
         return driver;
     }
