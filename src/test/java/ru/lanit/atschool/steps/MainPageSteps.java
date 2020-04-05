@@ -3,6 +3,8 @@ package ru.lanit.atschool.steps;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.ru.*;
+import io.qameta.allure.Allure;
+import io.qameta.allure.Attachment;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -13,6 +15,7 @@ import ru.lanit.atschool.pages.FirstPage;
 import ru.lanit.atschool.pages.MainPage;
 import ru.lanit.atschool.webdriver.WebDriverManager;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +33,11 @@ public class MainPageSteps {
         }
     }
 
+    @Attachment(value = "Скриншот", type = "image/png")
+    public byte[] saveScreenshot() {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+
 //    замена [blank] на пустую строку в данных (не null, как если бы случилось, если бы мы задали изначально просто пустые ячейки)
     @DataTableType(replaceWithEmptyString = "[blank]")
     public List<Map<String, String>> convert(DataTable dataTable) {
@@ -39,22 +47,26 @@ public class MainPageSteps {
     @Пусть("открыт браузер и введен адрес \"(.*)\"$")
     public void открытБраузерИВведенАдрес(String url) {
         mainPage.openPage(url);
+        Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
     }
 
     @Тогда("тест завершен")
     public void тестЗавершен() {
+
         driver.quit();
     }
 
     @И("переход на страницу Категории")
     public void переходНаСтраницуКатегории() {
         firstPage.getCategories.click();
+        Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
         System.out.println("Нашли и клинкули ссылку 'Категории'");
     }
 
     @И("переход на страницу Пользователи")
     public void переходНаСтраницуПользователи() {
         firstPage.getUsers.click();
+        Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
         System.out.println("Нашли и клинкули ссылку 'Пользователи'");
     }
 
@@ -63,8 +75,10 @@ public class MainPageSteps {
         firstPage.getSearchIcon.click();
         firstPage.getSearchField.click();
         firstPage.getSearchField.sendKeys("gromovalex");
+        new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(firstPage.getSearchUserString));
         firstPage.getSearchUserString.click();
         Assert.assertTrue(driver.findElement(By.xpath("//abbr[@title='Присоединился 26 марта 2020 г., 11:35']")).isDisplayed());
+        Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
         System.out.println("Нашли пользователя 'gromovalex'");
     }
 
@@ -99,11 +113,13 @@ public class MainPageSteps {
             if (isElementPresent("//div[@class='alerts-snackbar in']")) {
                 System.out.printf("%s Авторизоваться нет возможности! Проверка пройдена!\n", firstPage.getRedAlertSign.getText());
                 Assert.assertTrue(firstPage.getRedAlertSign.isDisplayed());
+                Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
                 new WebDriverWait(driver, 30).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='alerts-snackbar in']")));
 //                new WebDriverWait(driver, 30).until(ExpectedConditions.invisibilityOf(firstPage.getRedAlertSign)); // не пойму, но это не работает
                 firstPage.getCloseSign.click();
             } else {
                 System.out.printf("Пользователь %s авторизован! Проверка пройдена!\n", username);
+                Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
                 Assert.assertTrue(firstPage.imgUserAvatar.isDisplayed());
                 firstPage.imgUserAvatar.click();
                 try {
@@ -118,10 +134,12 @@ public class MainPageSteps {
     @Также("нажатие {string} и вызов формы авторизации")
     public void нажатиеКнопкиВойтиИВызовФормыАвторизации(String arg0) {
         firstPage.get(arg0).click();
-//        new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(firstPage.getUsernameField));
+        new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(firstPage.getCloseSign));
+        Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
         Assert.assertTrue(firstPage.getCloseSign.isDisplayed());
         firstPage.getCloseSign.click();
         System.out.println("Проверили, что рефлексия работает нормально");
     }
+
 }
 

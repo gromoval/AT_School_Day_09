@@ -5,7 +5,8 @@
  */
 package ru.lanit.atschool.webdriver;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class WebDriverManager {
 
     public static WebDriver driver;
-    protected static final Logger logger = Logger.getLogger(WebDriverManager.class);
+    protected static final Logger logger = LogManager.getLogger(WebDriverManager.class);
     private WebDriverManager() {
 
     }
