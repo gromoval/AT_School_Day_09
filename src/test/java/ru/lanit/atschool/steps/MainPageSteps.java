@@ -52,7 +52,6 @@ public class MainPageSteps {
 
     @Тогда("тест завершен")
     public void тестЗавершен() {
-
         driver.quit();
     }
 
