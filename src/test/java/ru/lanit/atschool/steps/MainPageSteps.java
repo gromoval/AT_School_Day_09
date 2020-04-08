@@ -85,6 +85,7 @@ public class MainPageSteps {
     @Дано("^проверка логинов и паролей пользователей$")
     public void логиныИПаролиПользователей(List<Map<String, String>> table) {
         for (int i=0; i<table.size(); i++) {
+            new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(firstPage.btnEnter));
             firstPage.btnSignIn.click();
             String username = table.get(i).get("login");
             String password = table.get(i).get("password");
