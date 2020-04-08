@@ -6,19 +6,17 @@ import io.cucumber.java.ru.*;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.*;
+import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import ru.lanit.atschool.pages.FirstPage;
 import ru.lanit.atschool.pages.MainPage;
 import ru.lanit.atschool.webdriver.WebDriverManager;
-
 import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+
 
 public class MainPageSteps {
     WebDriver driver = WebDriverManager.getDriver();
@@ -48,6 +46,7 @@ public class MainPageSteps {
     public void открытБраузерИВведенАдрес(String url) {
         mainPage.openPage(url);
         Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
+        Allure.addAttachment("Console log:", "Открыли браузер и зашли на страницу "+url);
     }
 
     @Тогда("тест завершен")
@@ -59,14 +58,14 @@ public class MainPageSteps {
     public void переходНаСтраницуКатегории() {
         firstPage.getCategories.click();
         Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
-        System.out.println("Нашли и клинкули ссылку 'Категории'");
+        Allure.addAttachment("Console log:", "Нашли и клинкули ссылку 'Категории'");
     }
 
     @И("переход на страницу Пользователи")
     public void переходНаСтраницуПользователи() {
         firstPage.getUsers.click();
         Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
-        System.out.println("Нашли и клинкули ссылку 'Пользователи'");
+        Allure.addAttachment("Console log:", "Нашли и клинкули ссылку 'Пользователи'");
     }
 
     @И("поиск пользователя из предыстории")
@@ -78,7 +77,7 @@ public class MainPageSteps {
         firstPage.getSearchUserString.click();
         Assert.assertTrue(driver.findElement(By.xpath("//abbr[@title='Присоединился 26 марта 2020 г., 11:35']")).isDisplayed());
         Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
-        System.out.println("Нашли пользователя 'gromovalex'");
+        Allure.addAttachment("Console log:", "Нашли пользователя 'gromovalex'");
     }
 
 //    эту штуку с циклами не разбить никак на отдельные
@@ -138,7 +137,7 @@ public class MainPageSteps {
         Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
         Assert.assertTrue(firstPage.getCloseSign.isDisplayed());
         firstPage.getCloseSign.click();
-        System.out.println("Проверили, что рефлексия работает нормально");
+        Allure.addAttachment("Console log: ", "Проверили, что рефлексия работает нормально");
     }
 
 }
