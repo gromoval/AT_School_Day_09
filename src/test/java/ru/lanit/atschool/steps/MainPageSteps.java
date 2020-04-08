@@ -122,6 +122,7 @@ public class MainPageSteps {
                 Assert.assertTrue(firstPage.imgUserAvatar.isDisplayed());
                 firstPage.imgUserAvatar.click();
                 try {
+                    new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(firstPage.btnUserExit));
                     firstPage.btnUserExit.click();
                     driver.switchTo().alert().accept();
                 } catch (org.openqa.selenium.UnhandledAlertException e) {
