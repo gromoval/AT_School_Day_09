@@ -110,14 +110,14 @@ public class MainPageSteps {
                     ExpectedConditions.elementToBeClickable(firstPage.imgUserAvatar)));
 
             if (isElementPresent("//div[@class='alerts-snackbar in']")) {
-                System.out.printf("%s Авторизоваться нет возможности! Проверка пройдена!\n", firstPage.getRedAlertSign.getText());
+                Allure.addAttachment("Console log:", firstPage.getRedAlertSign.getText() + "Авторизоваться нет возможности! Проверка пройдена!");
                 Assert.assertTrue(firstPage.getRedAlertSign.isDisplayed());
                 Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
                 new WebDriverWait(driver, 30).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='alerts-snackbar in']")));
 //                new WebDriverWait(driver, 30).until(ExpectedConditions.invisibilityOf(firstPage.getRedAlertSign)); // не пойму, но это не работает
                 firstPage.getCloseSign.click();
             } else {
-                System.out.printf("Пользователь %s авторизован! Проверка пройдена!\n", username);
+                Allure.addAttachment("Console log:", "Пользователь " + username + " авторизован! Проверка пройдена!");
                 Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
                 Assert.assertTrue(firstPage.imgUserAvatar.isDisplayed());
                 firstPage.imgUserAvatar.click();
@@ -138,7 +138,7 @@ public class MainPageSteps {
         Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
         Assert.assertTrue(firstPage.getCloseSign.isDisplayed());
         firstPage.getCloseSign.click();
-        Allure.addAttachment("Console log: ", "Проверили, что рефлексия работает нормально");
+        Allure.addAttachment("Console log:", "Проверили, что рефлексия работает нормально");
     }
 
 }
