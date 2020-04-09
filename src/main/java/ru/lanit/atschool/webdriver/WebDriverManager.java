@@ -12,7 +12,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 
-import java.util.concurrent.TimeUnit;
 
 public class WebDriverManager {
 
@@ -32,7 +31,6 @@ public class WebDriverManager {
             } catch(UnreachableBrowserException e) {
                logger.error("Невозможно инциализировать драйвер!", e);
             }
-//            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         }
         return driver;
     }

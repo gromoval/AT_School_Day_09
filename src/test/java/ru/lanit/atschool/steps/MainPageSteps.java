@@ -11,7 +11,6 @@ import io.cucumber.java.ru.*;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.*;
-import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -43,7 +42,7 @@ public class MainPageSteps {
 
     /**
      * Метод для снятия скриншотов средствами Selenium
-     * @return массив битов, который можно приаттачить к allure отчету в виде скриншота
+     * @return массив байтов, который можно приаттачить к allure отчету в виде скриншота
      */
     @Attachment(value = "Скриншот", type = "image/png")
     public byte[] saveScreenshot() {
@@ -143,6 +142,7 @@ public class MainPageSteps {
                     driver.switchTo().alert().accept();
                 } catch (org.openqa.selenium.UnhandledAlertException e) {
                 }
+                new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(firstPage.btnSignIn));
             }
         }
     }
