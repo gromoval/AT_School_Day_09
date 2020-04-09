@@ -47,8 +47,8 @@ public class MainPageSteps {
     /**
      * Метод для заполнения формы ввода. Очистка поля (если осталось предыдущее значение), выделение его кликом и передача в него новых данных
      * заполняется одно поле, для заполнения нескольких полей вызвать метод соответсвующее количество раз
-     * @param webElement
-     * @param filler
+     * @param webElement в какой вебэлемент будем передавать данные
+     * @param filler чем будем заполнять поле вебэлемента (String)
      */
     private void fillingTextField(WebElement webElement, String filler) {
         webElement.clear();
