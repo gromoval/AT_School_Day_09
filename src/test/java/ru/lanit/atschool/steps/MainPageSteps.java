@@ -1,3 +1,8 @@
+/**
+ * Класс, имплементирующий геркин-стиль описания шагов
+ * Автор: Громов А.C. <gromov-rabota@yandex.ru>
+ *     09/04/2020
+ */
 package ru.lanit.atschool.steps;
 
 import io.cucumber.datatable.DataTable;
@@ -23,6 +28,11 @@ public class MainPageSteps {
     MainPage mainPage = new MainPage();
     FirstPage firstPage = new FirstPage();
 
+    /**
+     * Метод проверки наличия вебэлемента на странице. В случае отсутсвия элемента не вызывает exception, а возвращает false
+     * @param locator_string передаем xpath и ищем элемент по нему
+     * @return true, если есть элемент, false, если нет
+     */
     private boolean isElementPresent(String locator_string) {
         try {
             return WebDriverManager.getDriver().findElement(By.xpath(locator_string)).isDisplayed();
@@ -31,12 +41,21 @@ public class MainPageSteps {
         }
     }
 
+    /**
+     * Метод для снятия скриншотов средствами Selenium
+     * @return массив битов, который можно приаттачить к allure отчету в виде скриншота
+     */
     @Attachment(value = "Скриншот", type = "image/png")
     public byte[] saveScreenshot() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
-//    замена [blank] на пустую строку в данных (не null, как если бы случилось, если бы мы задали изначально просто пустые ячейки)
+    /**
+     * Метод, заменяющий паттерн (в данном случае [blank]) в передаваемой DataTable на пустую строку
+     * по умолчанию кукумбер пустые строки передает как null, а не "". Эта "фича" кукумбера версии 5.0.0 и выше
+     * @param dataTable
+     * @return DataTable c пустыми строками вида ""
+     */
     @DataTableType(replaceWithEmptyString = "[blank]")
     public List<Map<String, String>> convert(DataTable dataTable) {
         return dataTable.asMaps();
@@ -80,7 +99,6 @@ public class MainPageSteps {
         Allure.addAttachment("Console log:", "Нашли пользователя 'gromovalex'");
     }
 
-//    эту штуку с циклами не разбить никак на отдельные
     @Дано("^проверка логинов и паролей пользователей$")
     public void логиныИПаролиПользователей(List<Map<String, String>> table) {
         for (int i=0; i<table.size(); i++) {
@@ -104,7 +122,7 @@ public class MainPageSteps {
                     firstPage.getPasswordField.sendKeys(Keys.ENTER);
                 }
             }
-//            Ждем, пока выскочит сообщение в красном блоке или появится кнопка, которая значит, что мы авторизовались
+
             new WebDriverWait(driver, 30).until(ExpectedConditions.or(
                     ExpectedConditions.visibilityOf(firstPage.getRedAlertSign),
                     ExpectedConditions.elementToBeClickable(firstPage.imgUserAvatar)));
@@ -114,7 +132,6 @@ public class MainPageSteps {
                 Assert.assertTrue(firstPage.getRedAlertSign.isDisplayed());
                 Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
                 new WebDriverWait(driver, 30).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='alerts-snackbar in']")));
-//                new WebDriverWait(driver, 30).until(ExpectedConditions.invisibilityOf(firstPage.getRedAlertSign)); // не пойму, но это не работает
                 firstPage.getCloseSign.click();
             } else {
                 Allure.addAttachment("Console log:", "Пользователь " + username + " авторизован! Проверка пройдена!");
@@ -122,7 +139,6 @@ public class MainPageSteps {
                 Assert.assertTrue(firstPage.imgUserAvatar.isDisplayed());
                 firstPage.imgUserAvatar.click();
                 try {
-                    new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(firstPage.btnUserExit));
                     firstPage.btnUserExit.click();
                     driver.switchTo().alert().accept();
                 } catch (org.openqa.selenium.UnhandledAlertException e) {

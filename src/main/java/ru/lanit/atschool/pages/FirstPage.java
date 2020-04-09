@@ -1,7 +1,10 @@
+/**
+ * Класс для описания паттерна POM
+ * Автор: Громов А.C. <gromov-rabota@yandex.ru>
+ *     09/04/2020
+ */
 package ru.lanit.atschool.pages;
 
-import io.qameta.allure.Attachment;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.lanit.atschool.Intefaces.NameOfElement;
@@ -47,10 +50,5 @@ public class FirstPage extends BasePage {
 
     @FindBy(xpath = "//div[@class='alerts-snackbar in']")
     public WebElement getRedAlertSign;
-
-//    public WebElement getCategories() {
-//        WebElement webElement = driver.findElement(By.xpath("//button[@class='btn navbar-btn btn-default btn-sign-in']"));
-//        return webElement;
-//    }
 
 }
