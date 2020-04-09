@@ -12,6 +12,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 
+import java.io.IOException;
+
 
 public class WebDriverManager {
 
@@ -21,12 +23,13 @@ public class WebDriverManager {
 
     }
 
-    public static WebDriver getDriver() {
+    public static WebDriver getDriver() throws IOException {
         if (driver == null) {
-            System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver.exe");
+            System.getProperties().load(ClassLoader.getSystemResourceAsStream("config.properties"));
+            System.setProperty("webdriver.chrome.driver", System.getProperty("chrome.driver.path"));
             try {
                 ChromeOptions option = new ChromeOptions();
-                option.addArguments("--window-size=1920,1080");
+                option.addArguments(System.getProperty("window.size"));
                 driver = new ChromeDriver(option);
             } catch(UnreachableBrowserException e) {
                logger.error("Невозможно инциализировать драйвер!", e);

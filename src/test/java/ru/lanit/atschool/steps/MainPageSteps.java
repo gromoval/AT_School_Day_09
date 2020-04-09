@@ -18,6 +18,7 @@ import ru.lanit.atschool.pages.FirstPage;
 import ru.lanit.atschool.pages.MainPage;
 import ru.lanit.atschool.webdriver.WebDriverManager;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,9 @@ public class MainPageSteps {
     MainPage mainPage = new MainPage();
     FirstPage firstPage = new FirstPage();
 
+    public MainPageSteps() throws IOException {
+    }
+
     /**
      * Метод проверки наличия вебэлемента на странице. В случае отсутсвия элемента не вызывает exception, а возвращает false
      * @param locator_string передаем xpath и ищем элемент по нему
@@ -35,9 +39,21 @@ public class MainPageSteps {
     private boolean isElementPresent(String locator_string) {
         try {
             return WebDriverManager.getDriver().findElement(By.xpath(locator_string)).isDisplayed();
-        } catch (NoSuchElementException e){
+        } catch (NoSuchElementException | IOException e){
             return false;
         }
+    }
+
+    /**
+     * Метод для заполнения формы ввода. Очистка поля (если осталось предыдущее значение), выделение его кликом и передача в него новых данных
+     * заполняется одно поле, для заполнения нескольких полей вызвать метод соответсвующее количество раз
+     * @param webElement
+     * @param filler
+     */
+    private void fillingTextField(WebElement webElement, String filler) {
+        webElement.clear();
+        webElement.click();
+        webElement.sendKeys(filler);
     }
 
     /**
@@ -87,51 +103,38 @@ public class MainPageSteps {
     }
 
     @И("поиск пользователя из предыстории")
-    public void поискПользователяИзПредыстории() {
+    public void поискПользователяИзПредыстории() throws IOException {
+        System.getProperties().load(ClassLoader.getSystemResourceAsStream("config.properties"));
         firstPage.getSearchIcon.click();
         firstPage.getSearchField.click();
-        firstPage.getSearchField.sendKeys("gromovalex");
-        new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(firstPage.getSearchUserString));
+        firstPage.getSearchField.sendKeys(System.getProperty("username"));
+        new WebDriverWait(driver, Integer.parseInt(System.getProperty("explicit.wait"))).until(ExpectedConditions.visibilityOf(firstPage.getSearchUserString));
         firstPage.getSearchUserString.click();
         Assert.assertTrue(driver.findElement(By.xpath("//abbr[@title='Присоединился 26 марта 2020 г., 11:35']")).isDisplayed());
         Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
-        Allure.addAttachment("Console log:", "Нашли пользователя 'gromovalex'");
+        Allure.addAttachment("Console log:", "Нашли пользователя '"+System.getProperty("username")+"'");
     }
 
     @Дано("^проверка логинов и паролей пользователей$")
     public void логиныИПаролиПользователей(List<Map<String, String>> table) {
         for (int i=0; i<table.size(); i++) {
-            new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(firstPage.btnSignIn));
-            new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(firstPage.btnSignIn));
+            new WebDriverWait(driver, Integer.parseInt(System.getProperty("explicit.wait"))).until(ExpectedConditions.elementToBeClickable(firstPage.btnSignIn));
+            new WebDriverWait(driver, Integer.parseInt(System.getProperty("explicit.wait"))).until(ExpectedConditions.visibilityOf(firstPage.btnSignIn));
             firstPage.btnSignIn.click();
             String username = table.get(i).get("login");
             String password = table.get(i).get("password");
-            new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(firstPage.getUsernameField));
-            firstPage.getUsernameField.clear();
-            if (username.isEmpty()) {
-                firstPage.btnEnter.click();
-            } else {
-                firstPage.getUsernameField.click();
-                firstPage.getUsernameField.sendKeys(username);
-                firstPage.getPasswordField.clear();
-                if (password.isEmpty()) {
-                    firstPage.btnEnter.click();
-                } else {
-                    firstPage.getPasswordField.click();
-                    firstPage.getPasswordField.sendKeys(password);
-                    firstPage.getPasswordField.sendKeys(Keys.ENTER);
-                }
-            }
-
-            new WebDriverWait(driver, 30).until(ExpectedConditions.or(
+            new WebDriverWait(driver, Integer.parseInt(System.getProperty("explicit.wait"))).until(ExpectedConditions.elementToBeClickable(firstPage.getUsernameField));
+            fillingTextField(firstPage.getUsernameField, username);
+            fillingTextField(firstPage.getPasswordField, password);
+            firstPage.btnEnter.click();
+            new WebDriverWait(driver, Integer.parseInt(System.getProperty("explicit.wait"))).until(ExpectedConditions.or(
                     ExpectedConditions.visibilityOf(firstPage.getRedAlertSign),
                     ExpectedConditions.elementToBeClickable(firstPage.imgUserAvatar)));
-
             if (isElementPresent("//div[@class='alerts-snackbar in']")) {
                 Allure.addAttachment("Console log:", firstPage.getRedAlertSign.getText() + "Авторизоваться нет возможности! Проверка пройдена!");
                 Assert.assertTrue(firstPage.getRedAlertSign.isDisplayed());
                 Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
-                new WebDriverWait(driver, 30).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='alerts-snackbar in']")));
+                new WebDriverWait(driver, Integer.parseInt(System.getProperty("explicit.wait"))).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='alerts-snackbar in']")));
                 firstPage.getCloseSign.click();
             } else {
                 Allure.addAttachment("Console log:", "Пользователь " + username + " авторизован! Проверка пройдена!");
@@ -150,7 +153,7 @@ public class MainPageSteps {
     @Также("нажатие {string} и вызов формы авторизации")
     public void нажатиеКнопкиВойтиИВызовФормыАвторизации(String arg0) {
         firstPage.get(arg0).click();
-        new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(firstPage.getCloseSign));
+        new WebDriverWait(driver, Integer.parseInt(System.getProperty("explicit.wait"))).until(ExpectedConditions.elementToBeClickable(firstPage.getCloseSign));
         Allure.addAttachment("скрин", new ByteArrayInputStream(saveScreenshot()));
         Assert.assertTrue(firstPage.getCloseSign.isDisplayed());
         firstPage.getCloseSign.click();

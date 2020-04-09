@@ -4,8 +4,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 
+import java.io.IOException;
 import java.util.List;
 public class MainPage extends BasePage {
+
+    public MainPage() throws IOException {
+    }
 
     /**
      * Метод открывает браузер на заданной странице

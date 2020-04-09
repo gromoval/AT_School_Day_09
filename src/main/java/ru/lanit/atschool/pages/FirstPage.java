@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.lanit.atschool.Intefaces.NameOfElement;
 
+import java.io.IOException;
+
 public class FirstPage extends BasePage {
 
     @FindBy(xpath = "//div[@class='navbar-search dropdown']")
@@ -51,4 +53,6 @@ public class FirstPage extends BasePage {
     @FindBy(xpath = "//div[@class='alerts-snackbar in']")
     public WebElement getRedAlertSign;
 
+    public FirstPage() throws IOException {
+    }
 }

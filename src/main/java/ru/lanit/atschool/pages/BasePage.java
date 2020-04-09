@@ -10,6 +10,7 @@ import ru.lanit.atschool.Intefaces.NameOfElement;
 import ru.lanit.atschool.webdriver.WebDriverManager;
 
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public abstract class BasePage {
     public final Logger logger = LogManager.getLogger(getClass());
     protected WebDriver driver;
 
-    public BasePage() {
+    public BasePage() throws IOException {
         driver = WebDriverManager.getDriver();
         PageFactory.initElements(driver, this);
     }
