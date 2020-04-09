@@ -105,7 +105,7 @@ public class MainPageSteps {
             firstPage.btnSignIn.click();
             String username = table.get(i).get("login");
             String password = table.get(i).get("password");
-            new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(firstPage.getUsernameField));
+            new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(firstPage.getUsernameField));
             firstPage.getUsernameField.clear();
             if (username.isEmpty()) {
                 firstPage.btnEnter.click();
@@ -142,7 +142,6 @@ public class MainPageSteps {
                     driver.switchTo().alert().accept();
                 } catch (org.openqa.selenium.UnhandledAlertException e) {
                 }
-                new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(firstPage.btnSignIn));
             }
         }
     }
