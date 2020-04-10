@@ -27,5 +27,3 @@
       | abyrvalg                | [blank]                       |
       | [blank]                 | [blank]                       |
       | [blank]                 | abyvalg                       |
-
-    Тогда тест завершен

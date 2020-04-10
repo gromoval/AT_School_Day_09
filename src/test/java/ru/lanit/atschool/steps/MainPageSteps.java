@@ -6,6 +6,7 @@
 package ru.lanit.atschool.steps;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.After;
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.ru.*;
 import io.qameta.allure.Allure;
@@ -82,9 +83,9 @@ public class MainPageSteps {
         Allure.addAttachment("Console log:", "Открыли браузер и зашли на страницу "+url);
     }
 
-    @Тогда("тест завершен")
-    public void тестЗавершен() {
-        driver.quit();
+    @After
+    public void tearDown() {
+        WebDriverManager.quit();
     }
 
     @И("переход на страницу Категории")
@@ -158,12 +159,5 @@ public class MainPageSteps {
         firstPage.getCloseSign.click();
         Allure.addAttachment("Console log:", "Проверили, что рефлексия работает нормально");
     }
-
-
-
-
-
-
-
 }
 
