@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-
 public class MainPageSteps {
     WebDriver driver = WebDriverManager.getDriver();
     MainPage mainPage = new MainPage();
