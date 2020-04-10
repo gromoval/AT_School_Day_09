@@ -159,5 +159,11 @@ public class MainPageSteps {
         Allure.addAttachment("Console log:", "Проверили, что рефлексия работает нормально");
     }
 
+
+
+
+
+
+
 }
 
